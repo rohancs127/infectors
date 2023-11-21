@@ -34,6 +34,11 @@ var summaryState = {
     game.add.bitmapText(245, 260, uiFonts.TITLE, 'Best time:', 25);
     game.add.bitmapText(370, 260, uiFonts.TITLE, humanizeTime(bestTime) || '--', 25);
 
+    if(matchMedia("(pointer: coarse)").matches){
+    bitmapTextCentered(450, uiFonts.TITLE, 'Tap to continue', 18);
+    game.input.onTap.add(this.handleTap, this);
+    }
+    else
     bitmapTextCentered(439, 'engeexpa', 'Press ENTER to play next level', 18);
 
     var enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
@@ -48,5 +53,11 @@ var summaryState = {
 
   next: function() {
     game.state.start('play');
-  }
+  },
+
+  handleTap: function(pointer) {
+    if (pointer.x > 200 && pointer.x < 400 && pointer.y > 400 && pointer.y < 550) {
+      this.next();
+    }
+},
 };

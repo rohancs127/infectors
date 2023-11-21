@@ -1,6 +1,15 @@
 'use strict';
 
-var game = new Phaser.Game(640, 480, Phaser.AUTO, 'game');
+// var screenWidth = window.innerWidth;
+
+var width = 640;
+var height = 480;
+
+// if(screenWidth<1000){
+//   height= 700;
+// }
+
+var game = new Phaser.Game(width, height, Phaser.AUTO, 'game');
 game.global = {
   level: 1,
   moves: 0,

@@ -8,6 +8,9 @@ var menuState = {
     licenseImage.scale.setTo(0.8, 0.8);
     licenseImage.anchor.set(0.5);
 
+    if(matchMedia("(pointer: coarse)").matches)
+    bitmapTextCentered(350, uiFonts.TITLE, 'Tap to start', 28);
+    else
     bitmapTextCentered(350, uiFonts.TITLE, 'Press ENTER to start', 28);
 
     var licenseLabel = game.add.text(80, 450,
@@ -32,10 +35,29 @@ var menuState = {
       moveRight.onDown.add(this.increaseLevel, this);
     }
 
+    game.input.onTap.add(this.handleTap, this);
+
     var enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
     enterKey.onDown.addOnce(this.start, this);
     this.bgmSound = game.add.audio('main');
     this.bgmSound.play();
+  },
+
+  handleTap: function(pointer) {
+      // Check if the tap is in the Enter button area
+      if (pointer.x > 200 && pointer.x < 400 && pointer.y > 350 && pointer.y < 400) {
+        this.start();
+      }
+
+      // Check if the tap is in the left arrow area
+      if (this.enableLevelSelection() && pointer.x > 375 && pointer.x < 425 && pointer.y > 290 && pointer.y < 340) {
+        this.decreaseLevel();
+      }
+
+      // Check if the tap is in the right arrow area
+      if (this.enableLevelSelection() && pointer.x > 455 && pointer.x < 505 && pointer.y > 290 && pointer.y < 340) {
+        this.increaseLevel();
+      }
   },
 
   enableLevelSelection: function() {

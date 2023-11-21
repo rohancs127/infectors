@@ -55,11 +55,18 @@ var playState = {
     game.world.bringToTop(groups.viruses);
     game.world.bringToTop(groups.changers);
 
+
+    game.input.onTap.add(this.handleTap, this);
+
     var e = this.map.objects['Hero'][0];
     var y = e.y - this.map.tileHeight;
     var facing = e.properties.facing || DIRECTION.DOWN;
     var variant = e.properties.color;
     this.player = new Hero(e.x, y, variant, facing, this.map);
+
+
+    if(matchMedia("(pointer: coarse)").matches)
+    this.menuLabel = bitmapTextCentered(400, uiFonts.INSTRUCTIONS, 'Tap for menu', 14);
 
     //Ingame menu shortcuts
     this.quitKey = game.input.keyboard.addKey(Phaser.Keyboard.Q);
@@ -71,6 +78,8 @@ var playState = {
     this.muteKey = game.input.keyboard.addKey(Phaser.Keyboard.M);
     this.muteKey.onUp.add(this.muteGame, this);
 
+
+
     //groups.walls.debug = true;
     this.pausedGame = false;
     this.pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
@@ -80,6 +89,12 @@ var playState = {
     this.hud = new HUD();
     this.tutorial = new Tutorial(this.player);
   },
+
+  handleTap: function(pointer) {
+    if (pointer.x > 200 && pointer.x < 400 && pointer.y > 400 && pointer.y < 410) {
+      this.togglePause();
+    }
+},
 
   update: function() {
     this.hud.update();

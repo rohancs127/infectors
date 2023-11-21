@@ -9,6 +9,11 @@ var Hero = function(x, y, variant, facing, map) {
   this.direction = facing;
   this.cursors = game.input.keyboard.createCursorKeys();
 
+  this.inputEnabled = true;
+  this.events.onInputDown.add(this.handleTouchStart, this);
+  this.events.onInputUp.add(this.handleTouchEnd, this);
+
+
   var t = this;
   var i = -1;
   [colorVariant.RED, colorVariant.BLUE, colorVariant.GREEN].forEach(function (color) {
@@ -122,3 +127,30 @@ Hero.prototype.checkChanger = function() {
     this.animations.getAnimation(this.getAnimName()).frame = 0;
   }
 };
+
+Hero.prototype.handleTouchStart = function(sprite, pointer) {
+  this.startX = pointer.x;
+  this.startY = pointer.y;
+  
+};
+
+Hero.prototype.handleTouchEnd = function(sprite, pointer) {
+  var deltaX = pointer.x - this.startX;
+  var deltaY = pointer.y - this.startY;
+
+
+  if (Math.abs(deltaX) > Math.abs(deltaY)) {
+    if (deltaX > 0) {
+      this.move(1, 0); 
+    } else {
+      this.move(-1, 0);
+    }
+  } else {
+    if (deltaY > 0) {
+      this.move(0, 1);
+    } else {
+      this.move(0, -1); 
+    }
+  }
+};
+

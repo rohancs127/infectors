@@ -10,6 +10,9 @@ var IngameMenu = function(play) {
   this.pauseKeyUp = game.input.keyboard.addKey(Phaser.Keyboard.UP);
   this.pauseKeyDown = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
   this.pauseKeyEnter = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+
+  game.input.onTap.add(this.handleTap, this);
+
 };
 
 IngameMenu.prototype.constructor = IngameMenu;
@@ -55,6 +58,21 @@ IngameMenu.prototype.hide = function() {
   this.pauseKeyUp.onDown.removeAll();
   this.pauseKeyDown.onDown.removeAll();
   this.pauseKeyEnter.onDown.removeAll();
+};
+
+
+IngameMenu.prototype.handleTap = function(pointer, doubleTap) {
+  if (!doubleTap) {
+    var x = pointer.x + game.camera.x;
+    var y = pointer.y + game.camera.y;
+
+    if (x > 195 && x < 400 && y > 160 && y < 320) {
+      var tappedOption = Math.floor((y - 160) / 60);
+
+      this.option = tappedOption;
+      this.executeMenuOption();
+    }
+  }
 };
 
 IngameMenu.prototype.moveCursorDown = function() {

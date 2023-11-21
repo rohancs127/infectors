@@ -12,6 +12,7 @@ var HUD = function() {
   game.add.bitmapText(515, y, uiFonts.HUD, 'x', textSize);
   this.virusesLabel = game.add.bitmapText(550, y, uiFonts.HUD, groups.viruses.length.toString(), textSize);
 
+  if(!matchMedia("(pointer: coarse)").matches)
   this.menuLabel = bitmapTextCentered(400, uiFonts.INSTRUCTIONS, 'Press ESC for menu', 14);
 
   groups.hud.add(this);
